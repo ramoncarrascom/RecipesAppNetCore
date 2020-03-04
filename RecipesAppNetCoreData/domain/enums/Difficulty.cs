@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RecipesAppNetCoreData.domain.enum
+namespace RecipesAppNetCoreData.domain.enums
 {
-    class Difficulty
-{
-}
+    /// <summary>
+    /// Difficulty enum
+    /// </summary>
+    public enum Difficulty
+    {
+        EASY, MODERATE, HARD
+    }
 }
