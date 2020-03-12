@@ -5,16 +5,13 @@ using System.Text;
 namespace RecipesAppNetCoreData.domain
 {
     /// <summary>
-    /// Note data model
+    /// Recipe-Category relationship
     /// </summary>
-    public class Note
+    public class RecipeCategory
     {
-
-        public long Id { get; set; }
-        public Recipe Recipe { get; set; }
         public long RecipeId { get; set; }
-        public string RecipeNotes { get; set; }
-
-
+        public Recipe Recipe { get; set; }
+        public long CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

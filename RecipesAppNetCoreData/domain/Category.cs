@@ -10,7 +10,7 @@ namespace RecipesAppNetCoreData.domain
     public class Category
     {
         public long Id { get; set; }
-        public List<Recipe> Recipes { get; set; }
+        public ICollection<RecipeCategory> RecipeCategories { get; set; }
         public string Description { get; set; }
     }
 }

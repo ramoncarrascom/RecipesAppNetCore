@@ -12,9 +12,9 @@ namespace RecipesAppNetCoreData.domain
     public class Recipe
     {
         public long Id { get; set; }
+        public ICollection<RecipeCategory> RecipeCategories { get; set; }
         public List<Ingredient> Ingredients { get; set; }
-        public Note Note { get; set; }
-        public List<Category> Categories { get; set; }
+        public Note Note { get; set; }        
         public Difficulty Difficulty { get; set; }
         public string Description { get; set; }
         public string Directions { get; set; }
