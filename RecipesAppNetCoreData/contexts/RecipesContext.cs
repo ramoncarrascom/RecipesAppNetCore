@@ -11,6 +11,8 @@ namespace RecipesAppNetCoreData.contexts
     /// </summary>
     public class RecipesContext : DbContext
     {
+        public RecipesContext(DbContextOptions options) : base(options) { }
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Note> Notes { get; set; }
