@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RecipesAppNetCore.ioc;
 using RecipesAppNetCoreData.contexts;
 
 namespace RecipesAppNetCore
@@ -16,7 +17,7 @@ namespace RecipesAppNetCore
     public class Startup
     {
         /// <summary>
-        /// Stores internal configuration
+        /// Stores app settings
         /// </summary>
         private readonly IConfiguration Configuration;
 
@@ -25,14 +26,22 @@ namespace RecipesAppNetCore
             this.Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        /// <summary>
+        /// Called by runtime. Used for services and IOC config
+        /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+
             services.AddDbContext<RecipesContext>(options => options.UseMySql(Configuration.GetConnectionString("MySql")));
+
+            new ServicesInstaller(services).Install();
+            new RepositoriesInstaller(services).Install();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Called by runtime. Configures pipeline.
+        /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -44,10 +53,7 @@ namespace RecipesAppNetCore
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }

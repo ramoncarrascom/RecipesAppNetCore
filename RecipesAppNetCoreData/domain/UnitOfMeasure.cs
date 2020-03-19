@@ -11,5 +11,13 @@ namespace RecipesAppNetCoreData.domain
     {
         public long Id { get; set; }
         public string Description { get; set; }
+
+        public UnitOfMeasure() { }
+
+        public UnitOfMeasure(long Id, string Description)
+        {
+            this.Id = Id;
+            this.Description = Description;
+        }
     }
 }

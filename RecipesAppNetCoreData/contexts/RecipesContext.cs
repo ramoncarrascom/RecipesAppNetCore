@@ -31,13 +31,22 @@ namespace RecipesAppNetCoreData.contexts
             }            
         }
 
+        /// <summary>
+        /// Model configuration
+        /// </summary>
+        /// <param name="modelBuilder">Model builder</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ConfigurePrimaryKeys(modelBuilder);
             ConfigureJoinTables(modelBuilder);
             ConfigureOneToOneRelation(modelBuilder);
+            InitializeData(modelBuilder);
         }
 
+        /// <summary>
+        /// PK configuration
+        /// </summary>
+        /// <param name="modelBuilder">Model builder</param>
         private void ConfigurePrimaryKeys(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Recipe>().HasKey(recipe => recipe.Id);
@@ -47,6 +56,10 @@ namespace RecipesAppNetCoreData.contexts
             modelBuilder.Entity<UnitOfMeasure>().HasKey(uom => uom.Id);
         }
 
+        /// <summary>
+        /// Join tables configuration for many-to-many relation
+        /// </summary>
+        /// <param name="modelBuilder">Model builder</param>
         private void ConfigureJoinTables(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RecipeCategory>().HasKey(rc => new { rc.CategoryId, rc.RecipeId });
@@ -54,9 +67,27 @@ namespace RecipesAppNetCoreData.contexts
             modelBuilder.Entity<RecipeCategory>().HasOne(ca => ca.Category).WithMany(c => c.RecipeCategories).HasForeignKey(ca => ca.CategoryId);
         }
 
+        /// <summary>
+        /// One-to-one relation configuration
+        /// </summary>
+        /// <param name="modelBuilder">Model builder</param>
         private void ConfigureOneToOneRelation(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Recipe>().HasOne(rc => rc.Note).WithOne(nt => nt.Recipe).HasForeignKey<Note>(nt => nt.RecipeId);
+        }
+
+        /// <summary>
+        /// Master data initialization
+        /// </summary>
+        /// <param name="modelBuilder">Model builder</param>
+        private void InitializeData(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UnitOfMeasure>().HasData(new UnitOfMeasure(1, "Tablespoon"));
+            modelBuilder.Entity<UnitOfMeasure>().HasData(new UnitOfMeasure(2, "Cup"));
+            modelBuilder.Entity<UnitOfMeasure>().HasData(new UnitOfMeasure(3, "Pint"));
+            modelBuilder.Entity<UnitOfMeasure>().HasData(new UnitOfMeasure(4, "Each"));
+            modelBuilder.Entity<UnitOfMeasure>().HasData(new UnitOfMeasure(5, "Teaspoon"));
+            modelBuilder.Entity<UnitOfMeasure>().HasData(new UnitOfMeasure(6, "Dash"));
         }
     }
 }
